@@ -11,7 +11,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -85,6 +86,16 @@ public class IcbfCannons
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "IcbfCannons" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    // Create a Deferred Register to hold EntityTypes which will all be registered under the "IcbfCannons" namespace
+    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
+    
+    // Register custom cannonball entity
+    public static final RegistryObject<EntityType<CannonballEntity>> CANNONBALL = ENTITY_TYPES.register("cannonball",
+            () -> EntityType.Builder.<CannonballEntity>of((type, level) -> new CannonballEntity(type, level), MobCategory.MISC)
+                    .sized(1.0F, 1.0F)
+                    .clientTrackingRange(13)  // 13 chunks = 208 blocks (covers 200 block range)
+                    .updateInterval(2)  // Update more frequently for smoother rendering
+                    .build("cannonball"));
 
     // Remove duplicate - use ModItems.ICBF_CANNON instead
     // public static final RegistryObject<Item> ICBF_CANNON = ITEMS.register("icbf_cannon", () -> new Item(new Item.Properties()));
@@ -116,6 +127,8 @@ public class IcbfCannons
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so entity types get registered
+        ENTITY_TYPES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -506,17 +519,17 @@ public class IcbfCannons
         Vec3 fireDirection = targetVec.subtract(cannonVec).normalize();
         double speed = 0.5;
         
-        LargeFireball fireball = new LargeFireball(
+        // Use custom CannonballEntity with distance-based gravity
+        CannonballEntity cannonball = new CannonballEntity(
             level,
             player,
             fireDirection.x * speed,
             fireDirection.y * speed,
-            fireDirection.z * speed,
-            0  // explosion power - 0 means no damage to blocks
+            fireDirection.z * speed
         );
         
-        fireball.setPos(spawnPos);
-        level.addFreshEntity(fireball);
+        cannonball.setPos(spawnPos);
+        level.addFreshEntity(cannonball);
         
         return true;
     }
@@ -614,17 +627,17 @@ class ModBlocks {
                 // Set fireball velocity
                 double speed = 0.5;
                 
-                LargeFireball fireball = new LargeFireball(
+                // Use custom CannonballEntity with distance-based gravity
+                CannonballEntity cannonball = new CannonballEntity(
                     level,
                     player,
                     direction.x * speed,
                     direction.y * speed,
-                    direction.z * speed,
-                    0  // explosion power - 0 means no damage to blocks
+                    direction.z * speed
                 );
                 
-                fireball.setPos(spawnPos);
-                level.addFreshEntity(fireball);
+                cannonball.setPos(spawnPos);
+                level.addFreshEntity(cannonball);
                 
                 player.displayClientMessage(
                     net.minecraft.network.chat.Component.literal("Cannon fired!"),
