@@ -159,6 +159,42 @@ public class IcbfCannons
 
     private static final List<ScheduledTask> delayedTasks = new ArrayList<>();
 
+    // Track whether the spyglass tick handler is currently registered
+    private boolean spyglassTickListenerActive = false;
+    private boolean lastTickAttackKeyDown = false; // Track attack key state to detect press (not hold)
+    
+    // Client-side tick handler for spyglass left-click detection (only registered when scoped)
+    private final Object spyglassTickHandler = new Object() {
+        @SubscribeEvent
+        public void onClientTick(net.minecraftforge.event.TickEvent.ClientTickEvent event) {
+            if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) {
+                return; // Only run at end of tick
+            }
+            
+            @SuppressWarnings("resource")
+            net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
+            net.minecraft.world.entity.player.Player player = mc.player;
+            
+            // Safety check - unregister if player no longer exists or stopped using spyglass
+            if (player == null || !player.isUsingItem() || !player.getMainHandItem().is(Items.SPYGLASS)) {
+                unregisterSpyglassTickListener();
+                return;
+            }
+            
+            // Check if attack key is currently pressed
+            boolean attackKeyDown = mc.options.keyAttack.isDown();
+            
+            // Detect rising edge (key just pressed, not held)
+            if (attackKeyDown && !lastTickAttackKeyDown) {
+                // Send packet to server to process targeting
+                NETWORK.send(net.minecraftforge.network.PacketDistributor.SERVER.noArg(), new SpyglassTargetPacket());
+            }
+            
+            // Update state for next tick
+            lastTickAttackKeyDown = attackKeyDown;
+        }
+    };
+
     @SubscribeEvent
     public void onServerTick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
         if (event.phase == net.minecraftforge.event.TickEvent.Phase.END) {
@@ -176,16 +212,63 @@ public class IcbfCannons
         }
     }
 
+    // Helper methods for dynamic event registration
+    private void registerSpyglassTickListener() {
+        if (!spyglassTickListenerActive) {
+            MinecraftForge.EVENT_BUS.register(spyglassTickHandler);
+            spyglassTickListenerActive = true;
+        }
+    }
+    
+    private void unregisterSpyglassTickListener() {
+        if (spyglassTickListenerActive) {
+            MinecraftForge.EVENT_BUS.unregister(spyglassTickHandler);
+            spyglassTickListenerActive = false;
+            lastTickAttackKeyDown = false; // Reset state when unregistering
+        }
+    }
+
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
         delayedTasks.clear(); // Clear any pending tasks from previous session
+        unregisterSpyglassTickListener(); // Cleanup tick listener on server restart
     }
     
-    // Handle left-click with spyglass to fire cannons
-    // This catches left-clicks in air (no interaction distance limit)
+    // Detect when player starts using spyglass (right-click to scope)
+    @SubscribeEvent
+    public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+        // Only run on client side
+        if (!event.getLevel().isClientSide) {
+            return;
+        }
+        
+        // Check if player is starting to use spyglass
+        if (event.getItemStack().is(Items.SPYGLASS)) {
+            // Register the tick listener to detect left-clicks while scoped
+            registerSpyglassTickListener();
+        }
+    }
+    
+    // Detect when player stops using any item (releases right-click or switches items)
+    @SubscribeEvent
+    public void onStopUsingItem(net.minecraftforge.event.entity.living.LivingEntityUseItemEvent.Stop event) {
+        // Only run on client side and only for players
+        if (!(event.getEntity() instanceof Player) || !event.getEntity().level().isClientSide) {
+            return;
+        }
+        
+        Player player = (Player) event.getEntity();
+        
+        // If they were using spyglass, unregister the tick listener
+        if (event.getItem().is(Items.SPYGLASS)) {
+            unregisterSpyglassTickListener();
+        }
+    }
+    
+    // Handle left-click when NOT scoped (LeftClickEmpty for air clicks)
     @SubscribeEvent
     public void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event) {
         Player player = event.getEntity();
