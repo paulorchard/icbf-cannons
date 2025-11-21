@@ -146,12 +146,42 @@ public class IcbfCannons
         Config.items.forEach((item) -> LOGGER.info("ITEM >> {}", item.toString()));
     }
 
+    // Task scheduler for delayed cannon firing
+    private static class ScheduledTask {
+        int delay;
+        Runnable action;
+
+        ScheduledTask(int delay, Runnable action) {
+            this.delay = delay;
+            this.action = action;
+        }
+    }
+
+    private static final List<ScheduledTask> delayedTasks = new ArrayList<>();
+
+    @SubscribeEvent
+    public void onServerTick(net.minecraftforge.event.TickEvent.ServerTickEvent event) {
+        if (event.phase == net.minecraftforge.event.TickEvent.Phase.END) {
+            if (delayedTasks.isEmpty()) return;
+            
+            java.util.Iterator<ScheduledTask> iterator = delayedTasks.iterator();
+            while (iterator.hasNext()) {
+                ScheduledTask task = iterator.next();
+                task.delay--;
+                if (task.delay <= 0) {
+                    task.action.run();
+                    iterator.remove();
+                }
+            }
+        }
+    }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+        delayedTasks.clear(); // Clear any pending tasks from previous session
     }
     
     // Handle left-click with spyglass to fire cannons
@@ -224,14 +254,18 @@ public class IcbfCannons
         
         // Search for cannon block entities in a reasonable radius (much more efficient)
         ServerLevel serverLevel = (ServerLevel) level;
-        int searchRadius = 10;  // Only search 10 blocks around player
+        int searchRadiusXZ = 20;  // 20 blocks horizontal around player
+        int searchRadiusY = 4;    // 4 blocks vertical (up and down)
         
         // Use chunk-based search for efficiency - only check loaded chunks
-        int chunkRadius = (searchRadius / 16) + 1;
+        int chunkRadius = (searchRadiusXZ / 16) + 1;
         int playerChunkX = player.blockPosition().getX() >> 4;
         int playerChunkZ = player.blockPosition().getZ() >> 4;
+        int playerY = player.blockPosition().getY();
         
-        boolean firedCannon = false;
+        // Collect all cannons that can fire at the target
+        List<BlockPos> firableCannons = new ArrayList<>();
+        int totalCannonsFound = 0;
         
         for (int cx = playerChunkX - chunkRadius; cx <= playerChunkX + chunkRadius; cx++) {
             for (int cz = playerChunkZ - chunkRadius; cz <= playerChunkZ + chunkRadius; cz++) {
@@ -246,30 +280,102 @@ public class IcbfCannons
                         BlockPos cannonPos = be.getBlockPos();
                         BlockState state = level.getBlockState(cannonPos);
                         
-                        // Quick distance check before expensive calculations
-                        if (cannonPos.distSqr(player.blockPosition()) > searchRadius * searchRadius) {
+                        // Calculate horizontal and vertical distances separately
+                        int dx = cannonPos.getX() - player.blockPosition().getX();
+                        int dz = cannonPos.getZ() - player.blockPosition().getZ();
+                        int dy = cannonPos.getY() - playerY;
+                        int distXZSq = dx * dx + dz * dz;
+                        
+                        // Check XZ distance (20 blocks) and Y distance (4 blocks)
+                        if (distXZSq > searchRadiusXZ * searchRadiusXZ || Math.abs(dy) > searchRadiusY) {
                             continue;
                         }
                         
-                        // Try to fire this cannon at the target
-                        if (tryFireCannonAtTarget(level, cannonPos, state, player, targetVec)) {
-                            firedCannon = true;
-                            break;
+                        totalCannonsFound++;
+                        
+                        // Check if this cannon can fire at the target (cone of fire check)
+                        if (canFireAtTarget(level, cannonPos, state, targetVec)) {
+                            firableCannons.add(cannonPos);
                         }
                     }
                 }
-                if (firedCannon) break;
             }
-            if (firedCannon) break;
         }
         
-        if (!firedCannon) {
-            // No cannon could fire at target
+        // Check if any cannons found in range
+        if (totalCannonsFound == 0) {
+            player.displayClientMessage(
+                net.minecraft.network.chat.Component.literal("No cannons in range Cap'n"),
+                true
+            );
+            return;
+        }
+        
+        // Check if any cannons can actually fire at target
+        if (firableCannons.isEmpty()) {
             player.displayClientMessage(
                 net.minecraft.network.chat.Component.literal("No target Cap'n"),
                 true
             );
+            return;
         }
+        
+        // Fire all cannons with staggered delays (very tight - 50-100ms between each)
+        for (int i = 0; i < firableCannons.size(); i++) {
+            final BlockPos cannonPos = firableCannons.get(i);
+            final BlockState cannonState = level.getBlockState(cannonPos);
+            
+            // Random delay between 1-2 ticks (0.05-0.1 seconds at 20 TPS)
+            int delayTicks = 1 + level.random.nextInt(2);
+            int totalDelay = i + delayTicks; // Base stagger of 1 tick per cannon plus random
+            
+            // Schedule the cannon to fire after delay using our custom scheduler
+            delayedTasks.add(new ScheduledTask(totalDelay, () -> 
+                tryFireCannonAtTarget(level, cannonPos, cannonState, player, targetVec)
+            ));
+        }
+        
+        // Notify player
+        player.displayClientMessage(
+            net.minecraft.network.chat.Component.literal("FIRE! (" + firableCannons.size() + ")"),
+            true
+        );
+    }
+    
+    // Check if a cannon can fire at the target (without actually firing)
+    private static boolean canFireAtTarget(Level level, BlockPos cannonPos, BlockState cannonState, Vec3 targetVec) {
+        Direction facing = cannonState.getValue(ModBlocks.CannonControllerBlock.FACING);
+        
+        // Calculate cannon firing position (pos5 - front top)
+        BlockPos middle = cannonPos;
+        BlockPos front = middle.relative(facing);
+        BlockPos frontTop = front.above();
+        Vec3 cannonVec = Vec3.atCenterOf(frontTop);
+        
+        // Get cannon facing direction
+        Vec3 cannonDir = Vec3.atLowerCornerOf(facing.getNormal());
+        
+        // Check 1: Is target in front of cannon?
+        Vec3 toTarget = targetVec.subtract(cannonVec).normalize();
+        double dotProduct = cannonDir.dot(toTarget);
+        if (dotProduct < 0.5) { // Must be roughly in front (within ~60 degrees)
+            return false;
+        }
+        
+        // Check 2: Is target within range?
+        double distance = cannonVec.distanceTo(targetVec);
+        if (distance < 2 || distance > 200) {
+            return false;
+        }
+        
+        // Check 3: Is target within cone of fire?
+        double angle = Math.acos(dotProduct);
+        double maxAngle = Math.toRadians(14); // ~14 degrees = 50 blocks at 200 distance
+        if (angle > maxAngle) {
+            return false;
+        }
+        
+        return true;
     }
     
     // Try to fire a specific cannon at a target position
@@ -328,11 +434,6 @@ public class IcbfCannons
         
         fireball.setPos(spawnPos);
         level.addFreshEntity(fireball);
-        
-        player.displayClientMessage(
-            net.minecraft.network.chat.Component.literal("Cannon fired!"),
-            true
-        );
         
         return true;
     }
