@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "icbfcannons:block/invisible"
+    },
+    "facing=south": {
+      "model": "icbfcannons:block/invisible"
+    },
+    "facing=west": {
+      "model": "icbfcannons:block/invisible"
+    },
+    "facing=east": {
+      "model": "icbfcannons:block/invisible"
+    }
+  }
+}

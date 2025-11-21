@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "icbfcannons:block/icbf_cannon_v1",
+      "y": 0
+    },
+    "facing=south": {
+      "model": "icbfcannons:block/icbf_cannon_v1",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "icbfcannons:block/icbf_cannon_v1",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "icbfcannons:block/icbf_cannon_v1",
+      "y": 90
+    }
+  }
+}

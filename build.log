@@ -1,0 +1,421 @@
+Initialized native services in: C:\Users\paulo\.gradle\native
+Initialized jansi services in: C:\Users\paulo\.gradle\native
+Received JVM installation metadata from 'C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot': {JAVA_HOME=C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot, JAVA_VERSION=17.0.17, JAVA_VENDOR=Microsoft, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.17+10-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.17+10-LTS, VM_VENDOR=Microsoft, OS_ARCH=amd64}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.8/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Starting process 'Gradle build daemon'. Working directory: C:\Users\paulo\.gradle\daemon\8.8 Command: C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot\bin\java.exe --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED -Xmx3G -Dfile.encoding=windows-1252 -Duser.country=US -Duser.language=en -Duser.variant -cp C:\Users\paulo\.gradle\wrapper\dists\gradle-8.8-bin\dl7vupf4psengwqhwktix4v1\gradle-8.8\lib\gradle-launcher-8.8.jar -javaagent:C:\Users\paulo\.gradle\wrapper\dists\gradle-8.8-bin\dl7vupf4psengwqhwktix4v1\gradle-8.8\lib\agents\gradle-instrumentation-agent-8.8.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 8.8
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 1.072 secs.
+The client will now receive all logging from the daemon (pid: 24948). The daemon log file: C:\Users\paulo\.gradle\daemon\8.8\daemon-24948.out.log
+Daemon will be stopped at the end of the build 
+Using 32 worker leases.
+Received JVM installation metadata from 'C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot': {JAVA_HOME=C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot, JAVA_VERSION=17.0.17, JAVA_VENDOR=Microsoft, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.17+10-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.17+10-LTS, VM_VENDOR=Microsoft, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Now considering [C:\Apps\icbf-cannons] as hierarchies to watch
+File system watching is active
+Starting Build
+Transforming foojay-resolver-0.7.0.jar (org.gradle.toolchains:foojay-resolver:0.7.0) with InstrumentationAnalysisTransform
+Transforming gson-2.9.1.jar (com.google.code.gson:gson:2.9.1) with InstrumentationAnalysisTransform
+Transforming foojay-resolver-0.7.0.jar (org.gradle.toolchains:foojay-resolver:0.7.0) with InstrumentationAnalysisTransform
+Transforming foojay-resolver-0.7.0.jar (org.gradle.toolchains:foojay-resolver:0.7.0) with MergeInstrumentationAnalysisTransform
+Transforming gson-2.9.1.jar (com.google.code.gson:gson:2.9.1) with InstrumentationAnalysisTransform
+Transforming gson-2.9.1.jar (com.google.code.gson:gson:2.9.1) with MergeInstrumentationAnalysisTransform
+Transforming foojay-resolver-0.7.0.jar (org.gradle.toolchains:foojay-resolver:0.7.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming gson-2.9.1.jar (com.google.code.gson:gson:2.9.1) with ExternalDependencyInstrumentingArtifactTransform
+Settings evaluated using settings file 'C:\Apps\icbf-cannons\settings.gradle'.
+Projects loaded. Root project using build file 'C:\Apps\icbf-cannons\build.gradle'.
+Included projects: [root project 'icbf-cannons']
+
+> Configure project :
+Evaluating root project 'icbf-cannons' using build file 'C:\Apps\icbf-cannons\build.gradle'.
+Transforming ForgeGradle-6.0.46.jar (net.minecraftforge.gradle:ForgeGradle:6.0.46) with InstrumentationAnalysisTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with InstrumentationAnalysisTransform
+Transforming JarJarSelector-0.3.19.jar (net.minecraftforge:JarJarSelector:0.3.19) with InstrumentationAnalysisTransform
+Transforming JarJarMetadata-0.3.19.jar (net.minecraftforge:JarJarMetadata:0.3.19) with InstrumentationAnalysisTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with InstrumentationAnalysisTransform
+Transforming guava-31.1-jre.jar (com.google.guava:guava:31.1-jre) with InstrumentationAnalysisTransform
+Transforming fastcsv-2.2.1.jar (de.siegmar:fastcsv:2.2.1) with InstrumentationAnalysisTransform
+Transforming artifactural-3.0.20.jar (net.minecraftforge:artifactural:3.0.20) with InstrumentationAnalysisTransform
+Transforming unsafe-0.2.0.jar (net.minecraftforge:unsafe:0.2.0) with InstrumentationAnalysisTransform
+Transforming maven-artifact-3.9.1.jar (org.apache.maven:maven-artifact:3.9.1) with InstrumentationAnalysisTransform
+Transforming httpclient-4.5.14.jar (org.apache.httpcomponents:httpclient:4.5.14) with InstrumentationAnalysisTransform
+Transforming srgutils-0.5.10.jar (net.minecraftforge:srgutils:0.5.10) with InstrumentationAnalysisTransform
+Transforming DiffPatch-2.0.12-all.jar (net.minecraftforge:DiffPatch:2.0.12) with InstrumentationAnalysisTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with InstrumentationAnalysisTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming checker-qual-3.12.0.jar (org.checkerframework:checker-qual:3.12.0) with InstrumentationAnalysisTransform
+Transforming error_prone_annotations-2.11.0.jar (com.google.errorprone:error_prone_annotations:2.11.0) with InstrumentationAnalysisTransform
+Transforming j2objc-annotations-1.3.jar (com.google.j2objc:j2objc-annotations:1.3) with InstrumentationAnalysisTransform
+Transforming plexus-utils-3.5.1.jar (org.codehaus.plexus:plexus-utils:3.5.1) with InstrumentationAnalysisTransform
+Transforming commons-lang3-3.9.jar (org.apache.commons:commons-lang3:3.9) with InstrumentationAnalysisTransform
+Transforming httpcore-4.4.16.jar (org.apache.httpcomponents:httpcore:4.4.16) with InstrumentationAnalysisTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with InstrumentationAnalysisTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with InstrumentationAnalysisTransform
+Transforming fastutil-8.3.1.jar (it.unimi.dsi:fastutil:8.3.1) with InstrumentationAnalysisTransform
+Transforming commons-compress-1.18.jar (org.apache.commons:commons-compress:1.18) with InstrumentationAnalysisTransform
+Transforming xz-1.8.jar (org.tukaani:xz:1.8) with InstrumentationAnalysisTransform
+Transforming jopt-simple-5.0.4.jar (net.sf.jopt-simple:jopt-simple:5.0.4) with InstrumentationAnalysisTransform
+Transforming noexception-1.7.1.jar (com.machinezoo.noexception:noexception:1.7.1) with InstrumentationAnalysisTransform
+Transforming slf4j-simple-1.7.30.jar (org.slf4j:slf4j-simple:1.7.30) with InstrumentationAnalysisTransform
+Transforming slf4j-api-1.7.30.jar (org.slf4j:slf4j-api:1.7.30) with InstrumentationAnalysisTransform
+Transforming ForgeGradle-6.0.46.jar (net.minecraftforge.gradle:ForgeGradle:6.0.46) with InstrumentationAnalysisTransform
+Transforming ForgeGradle-6.0.46.jar (net.minecraftforge.gradle:ForgeGradle:6.0.46) with MergeInstrumentationAnalysisTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with InstrumentationAnalysisTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with MergeInstrumentationAnalysisTransform
+Transforming JarJarSelector-0.3.19.jar (net.minecraftforge:JarJarSelector:0.3.19) with InstrumentationAnalysisTransform
+Transforming JarJarSelector-0.3.19.jar (net.minecraftforge:JarJarSelector:0.3.19) with MergeInstrumentationAnalysisTransform
+Transforming JarJarMetadata-0.3.19.jar (net.minecraftforge:JarJarMetadata:0.3.19) with InstrumentationAnalysisTransform
+Transforming JarJarMetadata-0.3.19.jar (net.minecraftforge:JarJarMetadata:0.3.19) with MergeInstrumentationAnalysisTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with InstrumentationAnalysisTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with MergeInstrumentationAnalysisTransform
+Transforming guava-31.1-jre.jar (com.google.guava:guava:31.1-jre) with InstrumentationAnalysisTransform
+Transforming guava-31.1-jre.jar (com.google.guava:guava:31.1-jre) with MergeInstrumentationAnalysisTransform
+Transforming fastcsv-2.2.1.jar (de.siegmar:fastcsv:2.2.1) with InstrumentationAnalysisTransform
+Transforming fastcsv-2.2.1.jar (de.siegmar:fastcsv:2.2.1) with MergeInstrumentationAnalysisTransform
+Transforming artifactural-3.0.20.jar (net.minecraftforge:artifactural:3.0.20) with InstrumentationAnalysisTransform
+Transforming artifactural-3.0.20.jar (net.minecraftforge:artifactural:3.0.20) with MergeInstrumentationAnalysisTransform
+Transforming ForgeGradle-6.0.46.jar (net.minecraftforge.gradle:ForgeGradle:6.0.46) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-io-2.11.0.jar (commons-io:commons-io:2.11.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming JarJarSelector-0.3.19.jar (net.minecraftforge:JarJarSelector:0.3.19) with ExternalDependencyInstrumentingArtifactTransform
+Transforming unsafe-0.2.0.jar (net.minecraftforge:unsafe:0.2.0) with InstrumentationAnalysisTransform
+Transforming unsafe-0.2.0.jar (net.minecraftforge:unsafe:0.2.0) with MergeInstrumentationAnalysisTransform
+Transforming maven-artifact-3.9.1.jar (org.apache.maven:maven-artifact:3.9.1) with InstrumentationAnalysisTransform
+Transforming JarJarMetadata-0.3.19.jar (net.minecraftforge:JarJarMetadata:0.3.19) with ExternalDependencyInstrumentingArtifactTransform
+Transforming maven-artifact-3.9.1.jar (org.apache.maven:maven-artifact:3.9.1) with MergeInstrumentationAnalysisTransform
+Transforming gson-2.10.1.jar (com.google.code.gson:gson:2.10.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpclient-4.5.14.jar (org.apache.httpcomponents:httpclient:4.5.14) with InstrumentationAnalysisTransform
+Transforming guava-31.1-jre.jar (com.google.guava:guava:31.1-jre) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpclient-4.5.14.jar (org.apache.httpcomponents:httpclient:4.5.14) with MergeInstrumentationAnalysisTransform
+Transforming srgutils-0.5.10.jar (net.minecraftforge:srgutils:0.5.10) with InstrumentationAnalysisTransform
+Transforming srgutils-0.5.10.jar (net.minecraftforge:srgutils:0.5.10) with MergeInstrumentationAnalysisTransform
+Transforming fastcsv-2.2.1.jar (de.siegmar:fastcsv:2.2.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming DiffPatch-2.0.12-all.jar (net.minecraftforge:DiffPatch:2.0.12) with InstrumentationAnalysisTransform
+Transforming unsafe-0.2.0.jar (net.minecraftforge:unsafe:0.2.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming DiffPatch-2.0.12-all.jar (net.minecraftforge:DiffPatch:2.0.12) with MergeInstrumentationAnalysisTransform
+Transforming artifactural-3.0.20.jar (net.minecraftforge:artifactural:3.0.20) with ExternalDependencyInstrumentingArtifactTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with InstrumentationAnalysisTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with MergeInstrumentationAnalysisTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with InstrumentationAnalysisTransform
+Transforming maven-artifact-3.9.1.jar (org.apache.maven:maven-artifact:3.9.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with MergeInstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with MergeInstrumentationAnalysisTransform
+Transforming httpclient-4.5.14.jar (org.apache.httpcomponents:httpclient:4.5.14) with ExternalDependencyInstrumentingArtifactTransform
+Transforming checker-qual-3.12.0.jar (org.checkerframework:checker-qual:3.12.0) with InstrumentationAnalysisTransform
+Transforming checker-qual-3.12.0.jar (org.checkerframework:checker-qual:3.12.0) with MergeInstrumentationAnalysisTransform
+Transforming error_prone_annotations-2.11.0.jar (com.google.errorprone:error_prone_annotations:2.11.0) with InstrumentationAnalysisTransform
+Transforming error_prone_annotations-2.11.0.jar (com.google.errorprone:error_prone_annotations:2.11.0) with MergeInstrumentationAnalysisTransform
+Transforming j2objc-annotations-1.3.jar (com.google.j2objc:j2objc-annotations:1.3) with InstrumentationAnalysisTransform
+Transforming j2objc-annotations-1.3.jar (com.google.j2objc:j2objc-annotations:1.3) with MergeInstrumentationAnalysisTransform
+Transforming DiffPatch-2.0.12-all.jar (net.minecraftforge:DiffPatch:2.0.12) with ExternalDependencyInstrumentingArtifactTransform
+Transforming failureaccess-1.0.1.jar (com.google.guava:failureaccess:1.0.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming srgutils-0.5.10.jar (net.minecraftforge:srgutils:0.5.10) with ExternalDependencyInstrumentingArtifactTransform
+Transforming plexus-utils-3.5.1.jar (org.codehaus.plexus:plexus-utils:3.5.1) with InstrumentationAnalysisTransform
+Transforming plexus-utils-3.5.1.jar (org.codehaus.plexus:plexus-utils:3.5.1) with MergeInstrumentationAnalysisTransform
+Transforming listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar (com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-lang3-3.9.jar (org.apache.commons:commons-lang3:3.9) with InstrumentationAnalysisTransform
+Transforming commons-lang3-3.9.jar (org.apache.commons:commons-lang3:3.9) with MergeInstrumentationAnalysisTransform
+Transforming httpcore-4.4.16.jar (org.apache.httpcomponents:httpcore:4.4.16) with InstrumentationAnalysisTransform
+Transforming httpcore-4.4.16.jar (org.apache.httpcomponents:httpcore:4.4.16) with MergeInstrumentationAnalysisTransform
+Transforming error_prone_annotations-2.11.0.jar (com.google.errorprone:error_prone_annotations:2.11.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming checker-qual-3.12.0.jar (org.checkerframework:checker-qual:3.12.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with InstrumentationAnalysisTransform
+Transforming j2objc-annotations-1.3.jar (com.google.j2objc:j2objc-annotations:1.3) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with MergeInstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with InstrumentationAnalysisTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with MergeInstrumentationAnalysisTransform
+Transforming fastutil-8.3.1.jar (it.unimi.dsi:fastutil:8.3.1) with InstrumentationAnalysisTransform
+Transforming fastutil-8.3.1.jar (it.unimi.dsi:fastutil:8.3.1) with MergeInstrumentationAnalysisTransform
+Transforming plexus-utils-3.5.1.jar (org.codehaus.plexus:plexus-utils:3.5.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-compress-1.18.jar (org.apache.commons:commons-compress:1.18) with InstrumentationAnalysisTransform
+Transforming commons-compress-1.18.jar (org.apache.commons:commons-compress:1.18) with MergeInstrumentationAnalysisTransform
+Transforming xz-1.8.jar (org.tukaani:xz:1.8) with InstrumentationAnalysisTransform
+Transforming commons-lang3-3.9.jar (org.apache.commons:commons-lang3:3.9) with ExternalDependencyInstrumentingArtifactTransform
+Transforming xz-1.8.jar (org.tukaani:xz:1.8) with MergeInstrumentationAnalysisTransform
+Transforming httpcore-4.4.16.jar (org.apache.httpcomponents:httpcore:4.4.16) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jopt-simple-5.0.4.jar (net.sf.jopt-simple:jopt-simple:5.0.4) with InstrumentationAnalysisTransform
+Transforming jopt-simple-5.0.4.jar (net.sf.jopt-simple:jopt-simple:5.0.4) with MergeInstrumentationAnalysisTransform
+Transforming noexception-1.7.1.jar (com.machinezoo.noexception:noexception:1.7.1) with InstrumentationAnalysisTransform
+Transforming commons-logging-1.2.jar (commons-logging:commons-logging:1.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming noexception-1.7.1.jar (com.machinezoo.noexception:noexception:1.7.1) with MergeInstrumentationAnalysisTransform
+Transforming slf4j-simple-1.7.30.jar (org.slf4j:slf4j-simple:1.7.30) with InstrumentationAnalysisTransform
+Transforming slf4j-simple-1.7.30.jar (org.slf4j:slf4j-simple:1.7.30) with MergeInstrumentationAnalysisTransform
+Transforming fastutil-8.3.1.jar (it.unimi.dsi:fastutil:8.3.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming slf4j-api-1.7.30.jar (org.slf4j:slf4j-api:1.7.30) with InstrumentationAnalysisTransform
+Transforming slf4j-api-1.7.30.jar (org.slf4j:slf4j-api:1.7.30) with MergeInstrumentationAnalysisTransform
+Transforming commons-codec-1.11.jar (commons-codec:commons-codec:1.11) with ExternalDependencyInstrumentingArtifactTransform
+Transforming xz-1.8.jar (org.tukaani:xz:1.8) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-compress-1.18.jar (org.apache.commons:commons-compress:1.18) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jopt-simple-5.0.4.jar (net.sf.jopt-simple:jopt-simple:5.0.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming noexception-1.7.1.jar (com.machinezoo.noexception:noexception:1.7.1) with ExternalDependencyInstrumentingArtifactTransform
+Transforming slf4j-simple-1.7.30.jar (org.slf4j:slf4j-simple:1.7.30) with ExternalDependencyInstrumentingArtifactTransform
+Transforming slf4j-api-1.7.30.jar (org.slf4j:slf4j-api:1.7.30) with ExternalDependencyInstrumentingArtifactTransform
+Java: 17.0.17, JVM: 17.0.17+10-LTS (Microsoft), Arch: amd64
+Downloading net.minecraftforge:forge:1.20.1-47.4.10:userdev
+Downloading net.minecraftforge:forge:1.20.1-47.4.10:universal@jar
+Downloading net.minecraftforge:forge:1.20.1-47.4.10:sources@jar
+Downloading de.oceanlabs.mcp:mcp_config:1.20.1-20230612.114412@zip
+Downloading de.oceanlabs.mcp:mcp_config:1.20.1@zip
+Downloading de.oceanlabs.mcp:mcp_config:1.20.1@zip
+Creating reobfuscation task for JarJar task: jarJar
+All projects evaluated.
+Task name matched 'clean'
+Task name matched 'build'
+Selected primary task 'clean' from project :
+Selected primary task 'build' from project :
+Starting process 'command 'C:\Users\paulo\.gradle\jdks\eclipse_adoptium-17-amd64-windows\jdk-17.0.17+10\bin\java.exe''. Working directory: C:\Users\paulo\.gradle\.tmp\tmp-jvm2991762954944488818probe Command: C:\Users\paulo\.gradle\jdks\eclipse_adoptium-17-amd64-windows\jdk-17.0.17+10\bin\java.exe -Xmx32m -Xms32m -cp . JavaProbe
+Successfully started process 'command 'C:\Users\paulo\.gradle\jdks\eclipse_adoptium-17-amd64-windows\jdk-17.0.17+10\bin\java.exe''
+Received JVM installation metadata from 'C:\Users\paulo\.gradle\jdks\eclipse_adoptium-17-amd64-windows\jdk-17.0.17+10': {JAVA_HOME=C:\Users\paulo\.gradle\jdks\eclipse_adoptium-17-amd64-windows\jdk-17.0.17+10, JAVA_VERSION=17.0.17, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.17+10, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.17+10, VM_VENDOR=Eclipse Adoptium, OS_ARCH=amd64}
+Starting process 'command 'C:\Users\paulo\.gradle\jdks\eclipse_adoptium-21-amd64-windows.2\bin\java.exe''. Working directory: C:\Users\paulo\.gradle\.tmp\tmp-jvm1568659850745512826probe Command: C:\Users\paulo\.gradle\jdks\eclipse_adoptium-21-amd64-windows.2\bin\java.exe -Xmx32m -Xms32m -cp . JavaProbe
+Successfully started process 'command 'C:\Users\paulo\.gradle\jdks\eclipse_adoptium-21-amd64-windows.2\bin\java.exe''
+Received JVM installation metadata from 'C:\Users\paulo\.gradle\jdks\eclipse_adoptium-21-amd64-windows.2': {JAVA_HOME=C:\Users\paulo\.gradle\jdks\eclipse_adoptium-21-amd64-windows.2, JAVA_VERSION=21.0.9, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=21.0.9+10-LTS, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=21.0.9+10-LTS, VM_VENDOR=Eclipse Adoptium, OS_ARCH=amd64}
+Downloading net.minecraftforge:ForgeAutoRenamingTool:1.0.6:all
+Downloading net.minecraftforge:ForgeAutoRenamingTool:1.0.6:all
+Tasks to be executed: [task ':clean', task ':compileJava', task ':processResources', task ':classes', task ':jar', task ':downloadMcpConfig', task ':extractSrg', task ':createMcpToSrg', task ':reobfJar', task ':jarJar', task ':reobfJarJar', task ':assemble', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test', task ':check', task ':build']
+Tasks that were excluded: []
+Resolve mutations for :clean (Thread[Execution worker Thread 3,5,main]) started.
+:clean (Thread[included builds,5,main]) started.
+destroyer locations for task group 0 (Thread[Execution worker Thread 3,5,main]) started.
+
+> Task :clean
+Caching disabled for task ':clean' because:
+  Build cache is disabled
+Task ':clean' is not up-to-date because:
+  Task has not declared any outputs despite executing actions.
+Resolve mutations for :compileJava (Thread[Execution worker Thread 3,5,main]) started.
+:compileJava (Thread[Execution worker Thread 3,5,main]) started.
+
+> Task :compileJava FAILED
+Downloading net.minecraft:mappings_official:1.20.1@zip
+Downloading net.minecraft:client:1.20.1:mappings@txt
+Downloading net.minecraft:server:1.20.1:mappings@txt
+Downloading de.oceanlabs.mcp:mcp_config:1.20.1@zip
+Downloading de.oceanlabs.mcp:mcp_config:1.20.1@zip
+Downloading net.minecraft:mappings_official:1.20.1@zip
+Downloading net.minecraft:mappings_official:1.20.1@zip
+Downloading net.minecraft:mappings_official:1.20.1@zip
+Downloading net.minecraft:mappings_official:1.20.1@zip
+Downloading net.minecraft:mappings_official:1.20.1@zip
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Task ':compileJava' is not up-to-date because:
+  Output property 'destinationDirectory' file C:\Apps\icbf-cannons\build\classes\java\main has been removed.
+  Output property 'destinationDirectory' file C:\Apps\icbf-cannons\build\classes\java\main\com has been removed.
+  Output property 'destinationDirectory' file C:\Apps\icbf-cannons\build\classes\java\main\com\example has been removed.
+  Output property 'options.generatedSourceOutputDirectory' file C:\Apps\icbf-cannons\build\generated\sources\annotationProcessor\java\main has been removed.
+The input changes require a full rebuild for incremental task ':compileJava'.
+Full recompilation is required because no incremental change information is available. This is usually caused by clean builds or changing compiler arguments.
+Compiling with toolchain 'C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot'.
+Compiling with JDK Java compiler API.
+C:\Apps\icbf-cannons\src\main\java\com\icbf\cannons\Config.java:19: error: duplicate class: com.icbf.cannons.Config
+public class Config
+       ^
+C:\Apps\icbf-cannons\src\main\java\com\example\examplemod\Config.java:49: warning: [removal] ResourceLocation(String) in ResourceLocation has been deprecated and marked for removal
+        return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
+                                                                                         ^
+C:\Apps\icbf-cannons\src\main\java\com\example\examplemod\Config.java:61: warning: [removal] ResourceLocation(String) in ResourceLocation has been deprecated and marked for removal
+                .map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName)))
+                                                                ^
+1 error
+2 warnings
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --scan to get full insights.
+
+* Exception is:
+org.gradle.api.tasks.TaskExecutionException: Execution failed for task ':compileJava'.
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.lambda$executeIfValid$1(ExecuteActionsTaskExecuter.java:130)
+	at org.gradle.internal.Try$Failure.ifSuccessfulOrElse(Try.java:282)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:128)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:80)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:463)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:380)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+Caused by: org.gradle.api.internal.tasks.compile.CompilationFailedException: Compilation failed; see the compiler error output for details.
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:61)
+	at org.gradle.api.internal.tasks.compile.JdkJavaCompiler.execute(JdkJavaCompiler.java:41)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.delegateAndHandleErrors(NormalizingJavaCompiler.java:98)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler.execute(NormalizingJavaCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.AnnotationProcessorDiscoveringCompiler.execute(AnnotationProcessorDiscoveringCompiler.java:38)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:46)
+	at org.gradle.api.internal.tasks.compile.ModuleApplicationNameWritingCompiler.execute(ModuleApplicationNameWritingCompiler.java:36)
+	at org.gradle.jvm.toolchain.internal.DefaultToolchainJavaCompiler.execute(DefaultToolchainJavaCompiler.java:57)
+	at org.gradle.api.tasks.compile.JavaCompile.lambda$createToolchainCompiler$3(JavaCompile.java:202)
+	at org.gradle.api.internal.tasks.compile.CleaningJavaCompiler.execute(CleaningJavaCompiler.java:53)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalCompilerFactory.lambda$createRebuildAllCompiler$0(IncrementalCompilerFactory.java:52)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:70)
+	at org.gradle.api.internal.tasks.compile.incremental.SelectiveCompiler.execute(SelectiveCompiler.java:44)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:66)
+	at org.gradle.api.internal.tasks.compile.incremental.IncrementalResultStoringCompiler.execute(IncrementalResultStoringCompiler.java:52)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:64)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler$1.call(CompileJavaBuildOperationReportingCompiler.java:48)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.compile.CompileJavaBuildOperationReportingCompiler.execute(CompileJavaBuildOperationReportingCompiler.java:48)
+	at org.gradle.api.tasks.compile.JavaCompile.performCompilation(JavaCompile.java:220)
+	at org.gradle.api.tasks.compile.JavaCompile.performIncrementalCompilation(JavaCompile.java:161)
+	at org.gradle.api.tasks.compile.JavaCompile.compile(JavaCompile.java:146)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at org.gradle.internal.reflect.JavaMethod.invoke(JavaMethod.java:125)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.doExecute(IncrementalTaskAction.java:45)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:51)
+	at org.gradle.api.internal.project.taskfactory.IncrementalTaskAction.execute(IncrementalTaskAction.java:26)
+	at org.gradle.api.internal.project.taskfactory.StandardTaskAction.execute(StandardTaskAction.java:29)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$3.run(TaskExecution.java:244)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:29)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$1.execute(DefaultBuildOperationRunner.java:26)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.run(DefaultBuildOperationRunner.java:47)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeAction(TaskExecution.java:229)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeActions(TaskExecution.java:212)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.executeWithPreviousOutputFiles(TaskExecution.java:195)
+	at org.gradle.api.internal.tasks.execution.TaskExecution.execute(TaskExecution.java:162)
+	at org.gradle.internal.execution.steps.ExecuteStep.executeInternal(ExecuteStep.java:105)
+	at org.gradle.internal.execution.steps.ExecuteStep.access$000(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:59)
+	at org.gradle.internal.execution.steps.ExecuteStep$1.call(ExecuteStep.java:56)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:56)
+	at org.gradle.internal.execution.steps.ExecuteStep.execute(ExecuteStep.java:44)
+	at org.gradle.internal.execution.steps.CancelExecutionStep.execute(CancelExecutionStep.java:41)
+	at org.gradle.internal.execution.steps.TimeoutStep.executeWithoutTimeout(TimeoutStep.java:74)
+	at org.gradle.internal.execution.steps.TimeoutStep.execute(TimeoutStep.java:55)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:50)
+	at org.gradle.internal.execution.steps.PreCreateOutputParentsStep.execute(PreCreateOutputParentsStep.java:28)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:67)
+	at org.gradle.internal.execution.steps.RemovePreviousOutputsStep.execute(RemovePreviousOutputsStep.java:37)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:61)
+	at org.gradle.internal.execution.steps.BroadcastChangingOutputsStep.execute(BroadcastChangingOutputsStep.java:26)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:67)
+	at org.gradle.internal.execution.steps.CaptureOutputsAfterExecutionStep.execute(CaptureOutputsAfterExecutionStep.java:45)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:40)
+	at org.gradle.internal.execution.steps.ResolveInputChangesStep.execute(ResolveInputChangesStep.java:29)
+	at org.gradle.internal.execution.steps.BuildCacheStep.executeWithoutCache(BuildCacheStep.java:189)
+	at org.gradle.internal.execution.steps.BuildCacheStep.lambda$execute$1(BuildCacheStep.java:75)
+	at org.gradle.internal.Either$Right.fold(Either.java:175)
+	at org.gradle.internal.execution.caching.CachingState.fold(CachingState.java:62)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:73)
+	at org.gradle.internal.execution.steps.BuildCacheStep.execute(BuildCacheStep.java:48)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:46)
+	at org.gradle.internal.execution.steps.StoreExecutionStateStep.execute(StoreExecutionStateStep.java:35)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.executeBecause(SkipUpToDateStep.java:76)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.lambda$execute$2(SkipUpToDateStep.java:54)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:54)
+	at org.gradle.internal.execution.steps.SkipUpToDateStep.execute(SkipUpToDateStep.java:36)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:37)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsFinishedStep.execute(MarkSnapshottingInputsFinishedStep.java:27)
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:49)
+	at org.gradle.internal.execution.steps.ResolveIncrementalCachingStateStep.executeDelegate(ResolveIncrementalCachingStateStep.java:27)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:71)
+	at org.gradle.internal.execution.steps.AbstractResolveCachingStateStep.execute(AbstractResolveCachingStateStep.java:39)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:65)
+	at org.gradle.internal.execution.steps.ResolveChangesStep.execute(ResolveChangesStep.java:36)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:106)
+	at org.gradle.internal.execution.steps.ValidateStep.execute(ValidateStep.java:55)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:64)
+	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:61)
+	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
+	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
+	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
+	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
+	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
+	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
+	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
+	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
+	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
+	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
+	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
+	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
+	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
+	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
+	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
+	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
+	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
+	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:80)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
+	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:463)
+	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:380)
+	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+
+
+BUILD FAILED in 7s
+2 actionable tasks: 2 executed
+Watched directory hierarchies: [C:\Apps\icbf-cannons]
