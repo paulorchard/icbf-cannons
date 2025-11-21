@@ -37,12 +37,47 @@ public class Config
             .comment("A list of items to log on common setup.")
             .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
 
+    // Cannonball explosion settings
+    private static final ForgeConfigSpec.DoubleValue EXPLOSION_POWER = BUILDER
+            .comment("Explosion power for visual effects and knockback (0.0 - 10.0)")
+            .defineInRange("cannonball.explosionPower", 1.0, 0.0, 10.0);
+
+    private static final ForgeConfigSpec.DoubleValue BLOCK_BREAK_CHANCE = BUILDER
+            .comment("Chance for each block to break from explosion (0.0 - 1.0, where 1.0 = 100%)")
+            .defineInRange("cannonball.blockBreakChance", 0.25, 0.0, 1.0);
+
+    private static final ForgeConfigSpec.DoubleValue ENTITY_DAMAGE_RADIUS = BUILDER
+            .comment("Radius for entity damage in blocks")
+            .defineInRange("cannonball.entityDamageRadius", 3.0, 0.0, 10.0);
+
+    private static final ForgeConfigSpec.DoubleValue ENTITY_DAMAGE = BUILDER
+            .comment("Damage dealt to entities (2.0 = 1 heart)")
+            .defineInRange("cannonball.entityDamage", 10.0, 0.0, 100.0);
+
+    private static final ForgeConfigSpec.BooleanValue FRIENDLY_FIRE = BUILDER
+            .comment("Whether cannonballs can damage the shooter")
+            .define("cannonball.friendlyFire", true);
+
+    private static final ForgeConfigSpec.IntValue CANNON_COOLDOWN_TICKS = BUILDER
+            .comment("Cooldown between cannon fires in ticks (20 ticks = 1 second, default 100 = 5 seconds)")
+            .defineInRange("cannon.cooldownTicks", 100, 0, 6000);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static boolean logDirtBlock;
     public static int magicNumber;
     public static String magicNumberIntroduction;
     public static Set<Item> items;
+
+    // Cannonball settings
+    public static double explosionPower;
+    public static double blockBreakChance;
+    public static double entityDamageRadius;
+    public static double entityDamage;
+    public static boolean friendlyFire;
+
+    // Cannon settings
+    public static int cannonCooldownTicks;
 
     private static boolean validateItemName(final Object obj)
     {
@@ -60,5 +95,15 @@ public class Config
         items = ITEM_STRINGS.get().stream()
                 .map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName)))
                 .collect(Collectors.toSet());
+
+        // Load cannonball settings
+        explosionPower = EXPLOSION_POWER.get();
+        blockBreakChance = BLOCK_BREAK_CHANCE.get();
+        entityDamageRadius = ENTITY_DAMAGE_RADIUS.get();
+        entityDamage = ENTITY_DAMAGE.get();
+        friendlyFire = FRIENDLY_FIRE.get();
+
+        // Load cannon settings
+        cannonCooldownTicks = CANNON_COOLDOWN_TICKS.get();
     }
 }

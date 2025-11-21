@@ -1,6 +1,7 @@
 // Residual file left from earlier refactor. Removed content to avoid duplicate classes.
 package com.icbf.cannons;
 
+import com.icbf.cannons.network.CannonImpactPacket;
 import com.icbf.cannons.network.SpyglassTargetPacket;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -8,12 +9,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
@@ -150,6 +157,11 @@ public class IcbfCannons
             SpyglassTargetPacket::encode,
             SpyglassTargetPacket::decode,
             SpyglassTargetPacket::handle);
+            
+        NETWORK.registerMessage(packetId++, CannonImpactPacket.class,
+            CannonImpactPacket::encode,
+            CannonImpactPacket::decode,
+            CannonImpactPacket::handle);
 
         if (Config.logDirtBlock)
             LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
@@ -250,6 +262,11 @@ public class IcbfCannons
         unregisterSpyglassTickListener(); // Cleanup tick listener on server restart
     }
     
+    // Send impact notification to a specific player for visual feedback
+    public static void sendImpactPacketToPlayer(ServerPlayer player, Vec3 impactPos) {
+        NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new CannonImpactPacket(impactPos));
+    }
+    
     // Detect when player starts using spyglass (right-click to scope)
     @SubscribeEvent
     public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
@@ -319,34 +336,69 @@ public class IcbfCannons
             return;
         }
         
-        // Raycast from player's eyes to find target block (up to 200 blocks)
+        // Raycast from player's eyes (up to 200 blocks)
         Vec3 eyePos = player.getEyePosition();
         Vec3 lookVec = player.getLookAngle();
-        BlockPos targetPos = null;
+        Vec3 endPos = eyePos.add(lookVec.scale(200.0));
         
-        // Step along look vector in 1-block increments (low accuracy, fast)
-        for (double distance = 0; distance <= 200; distance += 1.0) {
-            Vec3 checkPos = eyePos.add(lookVec.scale(distance));
-            BlockPos blockPos = BlockPos.containing(checkPos);
-            BlockState state = level.getBlockState(blockPos);
+        // Raycast for BLOCKS using proper clip context
+        ClipContext blockClipContext = new ClipContext(
+            eyePos, 
+            endPos, 
+            ClipContext.Block.OUTLINE,
+            ClipContext.Fluid.NONE, 
+            player
+        );
+        BlockHitResult blockHit = level.clip(blockClipContext);
+        
+        // Raycast for ENTITIES
+        AABB searchBox = new AABB(eyePos, endPos).inflate(1.0);
+        EntityHitResult entityHit = null;
+        double closestEntityDistance = Double.MAX_VALUE;
+        
+        for (Entity entity : level.getEntities(player, searchBox)) {
+            // Skip the player themselves and spectators
+            if (entity == player || entity.isSpectator()) {
+                continue;
+            }
             
-            // Stop at ANY non-air block (water, glass, partial blocks, etc.)
-            if (!state.isAir()) {
-                targetPos = blockPos;
-                break;
+            // Check if entity intersects with the look vector
+            AABB entityBox = entity.getBoundingBox().inflate(0.3); // Slightly inflate for easier targeting
+            java.util.Optional<Vec3> hitPos = entityBox.clip(eyePos, endPos);
+            
+            if (hitPos.isPresent()) {
+                double distance = eyePos.distanceTo(hitPos.get());
+                if (distance < closestEntityDistance) {
+                    closestEntityDistance = distance;
+                    entityHit = new EntityHitResult(entity, hitPos.get());
+                }
             }
         }
         
-        // If no target found (looking at sky/air)
-        if (targetPos == null) {
+        // Determine which target is closer
+        double blockDistance = blockHit.getType() != HitResult.Type.MISS ? 
+            eyePos.distanceTo(blockHit.getLocation()) : Double.MAX_VALUE;
+        double entityDistance = entityHit != null ? closestEntityDistance : Double.MAX_VALUE;
+        
+        final Vec3 targetVec;
+        final String targetType;
+        
+        if (entityDistance < blockDistance) {
+            // Entity is closer - target center of bounding box for better accuracy
+            targetVec = entityHit.getEntity().getBoundingBox().getCenter();
+            targetType = "entity: " + entityHit.getEntity().getName().getString();
+        } else if (blockDistance < Double.MAX_VALUE) {
+            // Block is closer
+            targetVec = blockHit.getLocation();
+            targetType = "block";
+        } else {
+            // No target found at all
             player.displayClientMessage(
                 net.minecraft.network.chat.Component.literal("No target Cap'n"),
                 true
             );
             return;
         }
-        
-        Vec3 targetVec = Vec3.atCenterOf(targetPos);
         
         // Search for cannon block entities in a reasonable radius (much more efficient)
         ServerLevel serverLevel = (ServerLevel) level;
@@ -361,6 +413,7 @@ public class IcbfCannons
         
         // Collect all cannons that can fire at the target
         List<BlockPos> firableCannons = new ArrayList<>();
+        List<BlockPos> reloadingCannons = new ArrayList<>();
         int totalCannonsFound = 0;
         
         for (int cx = playerChunkX - chunkRadius; cx <= playerChunkX + chunkRadius; cx++) {
@@ -372,7 +425,7 @@ public class IcbfCannons
                 
                 // Iterate through block entities in this chunk
                 for (BlockEntity be : serverLevel.getChunk(cx, cz).getBlockEntities().values()) {
-                    if (be instanceof ModBlockEntities.CannonBlockEntity) {
+                    if (be instanceof ModBlockEntities.CannonBlockEntity cannonBE) {
                         BlockPos cannonPos = be.getBlockPos();
                         BlockState state = level.getBlockState(cannonPos);
                         
@@ -391,7 +444,12 @@ public class IcbfCannons
                         
                         // Check if this cannon can fire at the target (cone of fire check)
                         if (canFireAtTarget(level, cannonPos, state, targetVec)) {
-                            firableCannons.add(cannonPos);
+                            // Separate ready cannons from reloading ones
+                            if (cannonBE.canFire()) {
+                                firableCannons.add(cannonPos);
+                            } else {
+                                reloadingCannons.add(cannonPos);
+                            }
                         }
                     }
                 }
@@ -407,8 +465,8 @@ public class IcbfCannons
             return;
         }
         
-        // Check if any cannons can actually fire at target
-        if (firableCannons.isEmpty()) {
+        // Check if any cannons can actually aim at target (ready or reloading)
+        if (firableCannons.isEmpty() && reloadingCannons.isEmpty()) {
             player.displayClientMessage(
                 net.minecraft.network.chat.Component.literal("No target Cap'n"),
                 true
@@ -416,7 +474,7 @@ public class IcbfCannons
             return;
         }
         
-        // Fire all cannons with staggered delays (very tight - 50-100ms between each)
+        // Fire all ready cannons with staggered delays
         for (int i = 0; i < firableCannons.size(); i++) {
             final BlockPos cannonPos = firableCannons.get(i);
             final BlockState cannonState = level.getBlockState(cannonPos);
@@ -431,9 +489,21 @@ public class IcbfCannons
             ));
         }
         
+        // Build status message
+        StringBuilder message = new StringBuilder();
+        if (!firableCannons.isEmpty()) {
+            message.append("FIRE! (").append(firableCannons.size()).append(")");
+        }
+        if (!reloadingCannons.isEmpty()) {
+            if (message.length() > 0) {
+                message.append("\n");
+            }
+            message.append("Reloading (").append(reloadingCannons.size()).append(")");
+        }
+        
         // Notify player
         player.displayClientMessage(
-            net.minecraft.network.chat.Component.literal("FIRE! (" + firableCannons.size() + ")"),
+            net.minecraft.network.chat.Component.literal(message.toString()),
             true
         );
     }
@@ -476,6 +546,14 @@ public class IcbfCannons
     
     // Try to fire a specific cannon at a target position
     private static boolean tryFireCannonAtTarget(Level level, BlockPos cannonPos, BlockState cannonState, Player player, Vec3 targetVec) {
+        // Check cooldown
+        BlockEntity be = level.getBlockEntity(cannonPos);
+        if (be instanceof ModBlockEntities.CannonBlockEntity cannonBE) {
+            if (!cannonBE.canFire()) {
+                return false; // Skip this cannon, it's on cooldown
+            }
+        }
+
         Direction facing = cannonState.getValue(ModBlocks.CannonControllerBlock.FACING);
         
         // Calculate cannon firing position (pos5 - front top)
@@ -530,6 +608,11 @@ public class IcbfCannons
         
         cannonball.setPos(spawnPos);
         level.addFreshEntity(cannonball);
+        
+        // Set cooldown (reuse 'be' variable from earlier check)
+        if (be instanceof ModBlockEntities.CannonBlockEntity cannonBE) {
+            cannonBE.setFired();
+        }
         
         return true;
     }
@@ -608,6 +691,22 @@ class ModBlocks {
         @Override
         public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
             if (!level.isClientSide) {
+                // Check cooldown
+                BlockEntity be = level.getBlockEntity(pos);
+                if (be instanceof ModBlockEntities.CannonBlockEntity cannonBE) {
+                    if (!cannonBE.canFire()) {
+                        long remainingTicks = cannonBE.getRemainingCooldownTicks();
+                        double remainingSeconds = remainingTicks / 20.0;
+                        player.displayClientMessage(
+                            net.minecraft.network.chat.Component.literal(
+                                String.format("Cannon cooling down: %.1fs", remainingSeconds)
+                            ),
+                            true
+                        );
+                        return InteractionResult.FAIL;
+                    }
+                }
+
                 // Fire a fireball from the front of the cannon
                 Direction facing = state.getValue(FACING);
                 
@@ -638,6 +737,11 @@ class ModBlocks {
                 
                 cannonball.setPos(spawnPos);
                 level.addFreshEntity(cannonball);
+                
+                // Set cooldown (reuse 'be' variable from earlier check)
+                if (be instanceof ModBlockEntities.CannonBlockEntity cannonBE) {
+                    cannonBE.setFired();
+                }
                 
                 player.displayClientMessage(
                     net.minecraft.network.chat.Component.literal("Cannon fired!"),
@@ -818,23 +922,48 @@ class ModBlockEntities {
 
     // Cannon BlockEntity - stores multiblock data
     public static class CannonBlockEntity extends BlockEntity {
+        private long lastFireTime = 0; // Game time in ticks when last fired
 
         public CannonBlockEntity(BlockPos pos, BlockState state) {
             super(CANNON_BE.get(), pos, state);
+        }
+
+        public boolean canFire() {
+            if (level == null) return false;
+            long currentTime = level.getGameTime();
+            long cooldown = Config.cannonCooldownTicks;
+            return (currentTime - lastFireTime) >= cooldown;
+        }
+
+        public long getRemainingCooldownTicks() {
+            if (level == null) return 0;
+            long currentTime = level.getGameTime();
+            long cooldown = Config.cannonCooldownTicks;
+            long elapsed = currentTime - lastFireTime;
+            return Math.max(0, cooldown - elapsed);
+        }
+
+        public void setFired() {
+            if (level != null) {
+                this.lastFireTime = level.getGameTime();
+                setChanged();
+            }
         }
 
         // Save data to NBT
         @Override
         protected void saveAdditional(CompoundTag tag) {
             super.saveAdditional(tag);
-            // Future: Add any data you need to save here
+            tag.putLong("LastFireTime", lastFireTime);
         }
 
         // Load data from NBT
         @Override
         public void load(CompoundTag tag) {
             super.load(tag);
-            // Future: Add any data you need to load here
+            if (tag.contains("LastFireTime")) {
+                this.lastFireTime = tag.getLong("LastFireTime");
+            }
         }
     }
 }
