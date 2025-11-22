@@ -162,6 +162,16 @@ public class IcbfCannons
             CannonImpactPacket::encode,
             CannonImpactPacket::decode,
             CannonImpactPacket::handle);
+            
+        NETWORK.registerMessage(packetId++, com.icbf.cannons.network.CompassTargetPacket.class,
+            com.icbf.cannons.network.CompassTargetPacket::encode,
+            com.icbf.cannons.network.CompassTargetPacket::decode,
+            com.icbf.cannons.network.CompassTargetPacket::handle);
+            
+        NETWORK.registerMessage(packetId++, com.icbf.cannons.network.BeaconRenderPacket.class,
+            com.icbf.cannons.network.BeaconRenderPacket::encode,
+            com.icbf.cannons.network.BeaconRenderPacket::decode,
+            com.icbf.cannons.network.BeaconRenderPacket::handle);
 
         if (Config.logDirtBlock)
             LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
