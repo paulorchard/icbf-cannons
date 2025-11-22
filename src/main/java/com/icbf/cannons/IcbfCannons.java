@@ -595,7 +595,47 @@ public class IcbfCannons
         
         // Calculate direction to target
         Vec3 fireDirection = targetVec.subtract(cannonVec).normalize();
-        double speed = 0.5;
+        double speed = 1.0; // Doubled from 0.5 to 1.0
+        
+        // Create muzzle flash effects
+        if (level instanceof ServerLevel serverLevel) {
+            // Large smoke puff from barrel
+            serverLevel.sendParticles(
+                net.minecraft.core.particles.ParticleTypes.LARGE_SMOKE,
+                spawnPos.x, spawnPos.y, spawnPos.z,
+                30, // Count
+                cannonDir.x * 2, cannonDir.y * 2, cannonDir.z * 2, // Direction
+                0.3 // Speed
+            );
+            
+            // Flash explosion at muzzle
+            serverLevel.sendParticles(
+                net.minecraft.core.particles.ParticleTypes.EXPLOSION,
+                spawnPos.x, spawnPos.y, spawnPos.z,
+                3,
+                0.2, 0.2, 0.2,
+                0.0
+            );
+            
+            // Flame burst
+            serverLevel.sendParticles(
+                net.minecraft.core.particles.ParticleTypes.FLAME,
+                spawnPos.x, spawnPos.y, spawnPos.z,
+                15,
+                cannonDir.x, cannonDir.y, cannonDir.z,
+                0.2
+            );
+        }
+        
+        // Play cannon fire sound
+        level.playSound(
+            null,
+            cannonPos,
+            net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE,
+            net.minecraft.sounds.SoundSource.BLOCKS,
+            3.0F, // Volume
+            0.5F + level.random.nextFloat() * 0.1F // Lower pitch for cannon sound
+        );
         
         // Use custom CannonballEntity with distance-based gravity
         CannonballEntity cannonball = new CannonballEntity(
@@ -723,8 +763,48 @@ class ModBlocks {
                     frontTop.getZ() + 0.5 + direction.z * 1.5
                 );
                 
-                // Set fireball velocity
-                double speed = 0.5;
+                // Set fireball velocity (doubled)
+                double speed = 1.0; // Doubled from 0.5 to 1.0
+                
+                // Create muzzle flash effects
+                if (level instanceof ServerLevel serverLevel) {
+                    // Large smoke puff from barrel
+                    serverLevel.sendParticles(
+                        net.minecraft.core.particles.ParticleTypes.LARGE_SMOKE,
+                        spawnPos.x, spawnPos.y, spawnPos.z,
+                        30,
+                        direction.x * 2, direction.y * 2, direction.z * 2,
+                        0.3
+                    );
+                    
+                    // Flash explosion at muzzle
+                    serverLevel.sendParticles(
+                        net.minecraft.core.particles.ParticleTypes.EXPLOSION,
+                        spawnPos.x, spawnPos.y, spawnPos.z,
+                        3,
+                        0.2, 0.2, 0.2,
+                        0.0
+                    );
+                    
+                    // Flame burst
+                    serverLevel.sendParticles(
+                        net.minecraft.core.particles.ParticleTypes.FLAME,
+                        spawnPos.x, spawnPos.y, spawnPos.z,
+                        15,
+                        direction.x, direction.y, direction.z,
+                        0.2
+                    );
+                }
+                
+                // Play cannon fire sound
+                level.playSound(
+                    null,
+                    pos,
+                    net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE,
+                    net.minecraft.sounds.SoundSource.BLOCKS,
+                    3.0F,
+                    0.5F + level.random.nextFloat() * 0.1F
+                );
                 
                 // Use custom CannonballEntity with distance-based gravity
                 CannonballEntity cannonball = new CannonballEntity(
