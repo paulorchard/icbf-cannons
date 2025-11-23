@@ -1,5 +1,6 @@
 package com.icbf.cannons.network;
 
+import com.icbf.cannons.util.VSCompatHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -43,8 +44,20 @@ public class CompassTargetPacket {
                 BlockPos targetPos = hitResult.getBlockPos();
                 
                 if (packet.released) {
-                    // Spawn TNT explosion 1 block above the target
-                    spawnTNTExplosion(player, targetPos);
+                    // Calculate distance for delay
+                    double distance = player.position().distanceTo(
+                        new net.minecraft.world.phys.Vec3(
+                            targetPos.getX() + 0.5,
+                            targetPos.getY() + 0.5,
+                            targetPos.getZ() + 0.5
+                        )
+                    );
+                    
+                    // 10ms per block delay
+                    long delayMs = (long) (distance * 10);
+                    
+                    // Schedule delayed explosion
+                    scheduleDelayedExplosion(player, targetPos, delayMs);
                 } else {
                     // Update beacon location (send to client for rendering)
                     sendBeaconUpdate(player, targetPos);
@@ -65,24 +78,45 @@ public class CompassTargetPacket {
             player
         );
         
-        return player.level().clip(context);
+        // Use VS-aware raycast if available, otherwise vanilla
+        return VSCompatHelper.performRaycast(player, context);
+    }
+    
+    private static void scheduleDelayedExplosion(ServerPlayer player, BlockPos targetPos, long delayMs) {
+        // Schedule the explosion on the server thread
+        if (player.getServer() == null) return;
+        
+        player.getServer().execute(() -> {
+            try {
+                Thread.sleep(delayMs);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+            
+            // Execute on main server thread after delay
+            if (player.getServer() != null) {
+                player.getServer().execute(() -> {
+                    spawnTNTExplosion(player, targetPos);
+                });
+            }
+        });
     }
     
     private static void spawnTNTExplosion(ServerPlayer player, BlockPos targetPos) {
         BlockPos explosionPos = targetPos.above();
         
-        // Create TNT entity with 0 fuse
-        net.minecraft.world.entity.item.PrimedTnt tnt = new net.minecraft.world.entity.item.PrimedTnt(
-            player.level(),
-            explosionPos.getX() + 0.5,
-            explosionPos.getY(),
-            explosionPos.getZ() + 0.5,
-            player
+        // Play explosion sound for hit confirmation
+        player.level().playSound(
+            null, // null = broadcast to all nearby players
+            explosionPos,
+            net.minecraft.sounds.SoundEvents.GENERIC_EXPLODE,
+            net.minecraft.sounds.SoundSource.PLAYERS,
+            1.0f, // volume
+            1.0f  // pitch
         );
-        tnt.setFuse(0); // Instant explosion
-        player.level().addFreshEntity(tnt);
         
-        // Send explosion particles to the player for hit confirmation
+        // Send explosion particles to the player for hit confirmation (no actual damage)
         if (player.level() instanceof ServerLevel serverLevel) {
             // Large explosion particle visible at range
             serverLevel.sendParticles(

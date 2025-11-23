@@ -1,8 +1,8 @@
-// Residual file left from earlier refactor. Removed content to avoid duplicate classes.
 package com.icbf.cannons;
 
 import com.icbf.cannons.network.CannonImpactPacket;
 import com.icbf.cannons.network.SpyglassTargetPacket;
+import com.icbf.cannons.util.VSCompatHelper;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -150,6 +150,9 @@ public class IcbfCannons
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
+        
+        // Log Valkyrien Skies compatibility status
+        LOGGER.info("Compass Targeting: {}", VSCompatHelper.getCompatStatus());
         
         // Register network packets
         int packetId = 0;
