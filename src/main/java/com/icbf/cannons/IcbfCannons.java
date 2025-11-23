@@ -2,7 +2,6 @@ package com.icbf.cannons;
 
 import com.icbf.cannons.network.CannonImpactPacket;
 import com.icbf.cannons.network.SpyglassTargetPacket;
-import com.icbf.cannons.util.VSCompatHelper;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -151,8 +150,9 @@ public class IcbfCannons
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
         
-        // Log Valkyrien Skies compatibility status
-        LOGGER.info("Compass Targeting: {}", VSCompatHelper.getCompatStatus());
+        // Initialize Swashbucklers ship detection
+        com.icbf.cannons.util.SwashbucklersShipHelper.initialize();
+        LOGGER.info("Ship Cannons: {}", com.icbf.cannons.util.SwashbucklersShipHelper.getCompatStatus());
         
         // Register network packets
         int packetId = 0;
@@ -175,6 +175,11 @@ public class IcbfCannons
             com.icbf.cannons.network.BeaconRenderPacket::encode,
             com.icbf.cannons.network.BeaconRenderPacket::decode,
             com.icbf.cannons.network.BeaconRenderPacket::handle);
+            
+        NETWORK.registerMessage(packetId++, com.icbf.cannons.network.ShipCannonFirePacket.class,
+            com.icbf.cannons.network.ShipCannonFirePacket::encode,
+            com.icbf.cannons.network.ShipCannonFirePacket::decode,
+            com.icbf.cannons.network.ShipCannonFirePacket::handle);
 
         if (Config.logDirtBlock)
             LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
@@ -678,6 +683,12 @@ public class IcbfCannons
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+        }
+        
+        @SubscribeEvent
+        public static void registerEntityRenderers(net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
+            // Register cannonball renderer (use fireball renderer since it extends LargeFireball)
+            event.registerEntityRenderer(CANNONBALL.get(), net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
         }
     }
 

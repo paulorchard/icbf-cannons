@@ -1,6 +1,5 @@
 package com.icbf.cannons.network;
 
-import com.icbf.cannons.util.VSCompatHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -78,8 +77,8 @@ public class CompassTargetPacket {
             player
         );
         
-        // Use VS-aware raycast if available, otherwise vanilla
-        return VSCompatHelper.performRaycast(player, context);
+        // Use vanilla raycast
+        return player.level().clip(context);
     }
     
     private static void scheduleDelayedExplosion(ServerPlayer player, BlockPos targetPos, long delayMs) {
